@@ -5,11 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0d1020" />
   <title>Money Clicker</title>
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link rel="stylesheet" href="styles.css?v=7" />
 </head>
-<body>
+<body data-mobile-view="play">
   <div class="game-shell">
-    <header class="topbar">
+    <header class="mobile-topbar" aria-label="Mobile game header">
+      <div class="mobile-brand"><div class="mobile-brand-mark">$</div><div><p class="eyebrow">Money Clicker</p><strong>Build your fortune</strong></div></div>
+      <button class="mobile-save-button" data-action="save" aria-label="Save game">↥</button>
+    </header>
+
+    <section class="mobile-balance-card" aria-label="Mobile money summary">
+      <div class="mobile-balance-main"><span class="label">Balance</span><strong id="mobile-money">$0</strong></div>
+      <div class="mobile-rate-grid"><div><span class="label">Tap value</span><strong id="mobile-per-click">$1</strong></div><div><span class="label">Per second</span><strong id="mobile-per-second">$0</strong></div></div>
+    </section>
+
+    <nav class="mobile-nav" aria-label="Mobile game sections">
+      <button class="mobile-nav-button active" data-mobile-view="play">Play</button>
+      <button class="mobile-nav-button" data-mobile-view="upgrades">Upgrades</button>
+      <button class="mobile-nav-button" data-mobile-view="auto">Auto</button>
+      <button class="mobile-nav-button" data-mobile-view="stats">Stats</button>
+    </nav>
+
+    <header class="topbar desktop-topbar">
       <div class="brand"><div class="brand-mark">$</div><div><p class="eyebrow">A tiny fortune starts here</p><h1>Money Clicker</h1></div></div>
       <div class="top-actions"><span id="save-state" class="save-state">Saved locally</span><button class="ghost-button" data-action="save">Save</button><button class="ghost-button" data-action="stats">Stats</button></div>
     </header>
@@ -21,7 +38,7 @@
     </section>
 
     <main class="game-layout">
-      <section class="click-zone">
+      <section class="click-zone" data-mobile-section="play">
         <div class="stage-label"><span class="live-dot"></span><span id="status-line">Click to start your fortune</span></div>
         <div id="click-stage" class="click-stage">
           <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
@@ -32,9 +49,9 @@
         <div class="buy-controls" aria-label="Generator purchase amount"><div><span class="label">Buy amount</span><strong id="selected-amount-label" class="selected-amount">×1 selected</strong></div><div class="amount-buttons"><button class="amount-button active" data-amount="1" aria-pressed="true">×1</button><button class="amount-button" data-amount="10" aria-pressed="false">×10</button><button class="amount-button" data-amount="25" aria-pressed="false">×25</button><button class="amount-button" data-amount="100" aria-pressed="false">×100</button><button class="amount-button" data-amount="max" aria-pressed="false">MAX</button></div></div>
       </section>
 
-      <section class="panel upgrades-panel"><div class="panel-heading"><div><p class="eyebrow">Make every tap count</p><h2>Click upgrades</h2></div><span class="panel-count" id="upgrade-count">0 bought</span></div><div id="upgrade-list" class="upgrade-list"></div></section>
+      <section class="panel upgrades-panel" data-mobile-section="upgrades"><div class="panel-heading"><div><p class="eyebrow">Make every tap count</p><h2>Click upgrades</h2></div><span class="panel-count" id="upgrade-count">0 bought</span></div><div id="upgrade-list" class="upgrade-list"></div></section>
 
-      <section class="panel generators-panel"><div class="panel-heading"><div><p class="eyebrow">Money while you sleep</p><h2>Auto clickers</h2></div><span class="panel-count" id="generator-count">0 owned</span></div><div id="generator-list" class="generator-list"></div></section>
+      <section class="panel generators-panel" data-mobile-section="auto"><div class="panel-heading"><div><p class="eyebrow">Money while you sleep</p><h2>Auto clickers</h2></div><span class="panel-count" id="generator-count">0 owned</span></div><div id="generator-list" class="generator-list"></div></section>
     </main>
 
     <section class="utility-row"><button class="utility-button" data-action="export">Export save</button><button class="utility-button" data-action="import">Import save</button><button class="utility-button danger" data-action="reset">Reset game</button><input id="import-file" type="file" accept="application/json" hidden /></section>
