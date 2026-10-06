@@ -20,6 +20,8 @@
 .selected-amount { display:block; margin-top:3px; color:var(--gold); font-size:.7rem; }
 .mobile-topbar,.mobile-balance-card,.mobile-nav { display:none; }
 @media (max-width:650px) {
+  html,body { touch-action:pan-x pan-y; }
+  button { touch-action:manipulation; }
   body { background-image:radial-gradient(circle at 50% -12%,#49365b66,transparent 22rem),linear-gradient(180deg,#0b0d19,#10152a); }
   .game-shell { width:100%; max-width:520px; margin:auto; padding:12px 10px 28px; }
   .desktop-topbar,.resource-bar { display:none; }
