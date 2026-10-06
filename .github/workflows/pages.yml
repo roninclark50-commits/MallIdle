@@ -1,4 +1,4 @@
-name: Deploy LifeBook to GitHub Pages
+name: Deploy Mall Idle to GitHub Pages
 
 on:
   push:

@@ -1,8 +1,8 @@
 {
-  "name": "lifebook",
+  "name": "mall-idle",
   "version": "1.0.0",
   "private": true,
-  "description": "A lightweight life progression simulator",
+  "description": "A focused idle mall management game",
   "scripts": {
     "start": "python3 -m http.server ${PORT:-4173}"
   }
