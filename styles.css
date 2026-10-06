@@ -25,9 +25,12 @@
 .upgrade-card.rarity-max,.generator-card.rarity-max { border-color:#fff0a6; box-shadow:0 0 0 1px #fff4bd99,0 0 21px #ff83e866,0 0 38px #6ee7f544; }
 .upgrade-card.rarity-max::before,.generator-card.rarity-max::before { content:""; position:absolute; z-index:-1; inset:-4px; border-radius:inherit; background:conic-gradient(from 0deg,#ff5c8a,#ffd166,#76e0a6,#6ee7f5,#9a8cff,#ff5c8a); filter:blur(12px); opacity:.55; pointer-events:none; animation:rarity-shift 4.5s linear infinite; }
 @keyframes rarity-shift { to { transform:rotate(360deg); filter:blur(9px) hue-rotate(30deg); } }
-.desktop-nav { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-bottom:14px; padding:5px; border:1px solid var(--line); border-radius:14px; background:#101426cc; box-shadow:0 8px 22px #03040c44; }
-.desktop-nav-button { min-height:37px; border:0; border-radius:9px; color:var(--muted); background:transparent; font-size:.73rem; font-weight:900; }
-.desktop-nav-button.active { color:#211607; background:var(--gold); box-shadow:0 3px 0 #a96e24; }
+.desktop-nav { display:grid; grid-template-columns:repeat(4,1fr); width:min(100%,900px); gap:6px; margin:0 auto 18px; padding:6px; border:1px solid #3b4163; border-radius:18px; background:linear-gradient(135deg,#171b31dd,#0f1324dd); box-shadow:0 12px 30px #03040c55,inset 0 1px #ffffff08; }
+.desktop-nav-button { display:flex; align-items:center; justify-content:center; gap:8px; min-height:45px; border:1px solid transparent; border-radius:12px; color:var(--muted); background:#181d31aa; font-size:.75rem; font-weight:900; transition:color .18s,background .18s,border-color .18s,transform .18s,box-shadow .18s; }
+.desktop-nav-button:hover { border-color:#555d85; color:var(--text); background:#232943; transform:translateY(-1px); }
+.desktop-nav-button.active { border-color:#ffe28a; color:#211607; background:linear-gradient(135deg,#fff0a3,var(--gold)); box-shadow:0 4px 0 #a96e24,0 0 20px #ffd16644; transform:translateY(-1px); }
+.desktop-tab-icon { display:grid; place-items:center; width:25px; height:25px; border:1px solid #4b5277; border-radius:8px; color:var(--cyan); background:#202641; font-size:.75rem; line-height:1; }
+.desktop-nav-button.active .desktop-tab-icon { border-color:#b87a27; color:#4f3006; background:#ffe58a; }
 .mobile-topbar,.mobile-balance-card,.mobile-nav { display:none; }
 @media (max-width:650px) {
   html,body,button { -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; }
