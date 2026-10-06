@@ -18,7 +18,14 @@ const CLICK_UPGRADES = [
   {id:'golden-clicking',name:'Golden Clicking',icon:'✦',description:'+10 money per click',baseCost:500,add:10},
   {id:'power-clicks',name:'Power Clicks',icon:'ϟ',description:'+40 money per click',baseCost:2500,add:40},
   {id:'money-magnet',name:'Money Magnet',icon:'◈',description:'+150 money per click',baseCost:15000,add:150},
-  {id:'diamond-hands',name:'Diamond Hands',icon:'◇',description:'+750 money per click',baseCost:100000,add:750}
+  {id:'diamond-hands',name:'Diamond Hands',icon:'◇',description:'+750 money per click',baseCost:100000,add:750},
+  {id:'platinum-fingers',name:'Platinum Fingers',icon:'⬡',description:'+4,000 money per click',baseCost:750000,add:4000},
+  {id:'quantum-mouse',name:'Quantum Mouse',icon:'◌',description:'+25,000 money per click',baseCost:5000000,add:25000},
+  {id:'reality-clicker',name:'Reality Clicker',icon:'◉',description:'+175,000 money per click',baseCost:40000000,add:175000},
+  {id:'cosmic-touch',name:'Cosmic Touch',icon:'✧',description:'+1,500,000 money per click',baseCost:350000000,add:1500000},
+  {id:'billionaire-fingers',name:'Billionaire Fingers',icon:'♛',description:'+15,000,000 money per click',baseCost:3000000000,add:15000000},
+  {id:'reality-breaker',name:'Reality Breaker',icon:'⟁',description:'+175,000,000 money per click',baseCost:30000000000,add:175000000},
+  {id:'infinite-click',name:'Infinite Click',icon:'∞',description:'+2,500,000,000 money per click',baseCost:400000000000,add:2500000000}
 ];
 const DEFAULT_STATE = {version:1,money:0,lifetime:0,clicks:0,clickEarned:0,passiveEarned:0,timePlayed:0,lastTick:Date.now(),lastSeen:Date.now(),clickUpgrades:{},generators:{},milestones:[],activity:[{time:Date.now(),text:'Your balance is $0. Click the coin to begin.'}]};
 let state=loadState(); let selectedAmount=1; let toastTimer; let lastAutoSave=Date.now();
