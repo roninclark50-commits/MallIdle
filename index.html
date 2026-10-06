@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0d1020" />
   <title>Money Clicker</title>
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <div class="game-shell">
@@ -25,7 +25,7 @@
         <div class="stage-label"><span class="live-dot"></span><span id="status-line">Click to start your fortune</span></div>
         <div id="click-stage" class="click-stage">
           <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-          <button id="money-orb" class="money-orb" aria-label="Click to earn money"><img class="coin-sprite" src="coin-sprite.png" alt="" draggable="false" /></button>
+          <button id="money-orb" class="money-orb" aria-label="Click to earn money"><img class="coin-sprite" src="coin-sprite.png?v=2" alt="" draggable="false" /></button>
           <div id="particles" class="particles" aria-hidden="true"></div>
         </div>
         <p class="click-hint">Tap the coin · build your passive income · repeat</p>
@@ -43,6 +43,6 @@
 
   <div id="offline-modal" class="modal-backdrop hidden"><div class="modal offline-modal"><div class="modal-icon">↗</div><p class="eyebrow">Welcome back</p><h2>You were away</h2><p id="offline-duration" class="modal-copy"></p><div class="offline-earnings"><span>Your businesses earned</span><strong id="offline-money">$0</strong></div><button class="primary-button" data-action="close-offline">Collect earnings</button></div></div>
   <div id="toast" class="toast" role="status"></div>
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
