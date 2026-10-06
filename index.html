@@ -3,37 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#15121f" />
-  <title>Mall Idle</title>
+  <meta name="theme-color" content="#0d1020" />
+  <title>Money Clicker</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="game-shell">
     <header class="topbar">
-      <div class="brand"><div class="brand-mark">M</div><div><p class="kicker">Build it. Fill it. Grow it.</p><h1>Mall Idle</h1></div></div>
-      <button class="reset-button" data-action="reset" title="Start a new mall">Reset mall</button>
+      <div class="brand"><div class="brand-mark">$</div><div><p class="eyebrow">A tiny fortune starts here</p><h1>Money Clicker</h1></div></div>
+      <div class="top-actions"><span id="save-state" class="save-state">Saved locally</span><button class="ghost-button" data-action="save">Save</button><button class="ghost-button" data-action="stats">Stats</button></div>
     </header>
 
-    <section class="money-banner">
-      <div class="balance-block"><span class="label">Mall balance</span><strong id="money">$0</strong><span id="earn-ticker" class="ticker">Waiting to open your first store</span></div>
-      <div class="income-block"><span class="label">Income rate</span><strong id="income-rate">$0 / sec</strong><span class="ticker mint">Automatic earnings</span></div>
+    <section class="resource-bar">
+      <div class="resource balance"><span class="label">Total money</span><strong id="money">$0</strong></div>
+      <div class="resource"><span class="label">Per click</span><strong id="per-click">$1</strong></div>
+      <div class="resource"><span class="label">Per second</span><strong id="per-second">$0</strong></div>
     </section>
 
-    <section class="mall-overview">
-      <div class="overview-copy"><span class="label">Mall status</span><h2 id="mall-level">A quiet beginning</h2><p id="mall-message">Open your first store to bring the mall to life.</p></div>
-      <div class="overview-stats"><div><strong id="open-count">0</strong><span>open stores</span></div><div><strong id="total-levels">0</strong><span>upgrade levels</span></div><div><strong id="total-earned">$0</strong><span>total earned</span></div></div>
-    </section>
-
-    <main>
-      <div class="section-heading"><div><p class="kicker">Your mall floor</p><h2>Stores</h2></div><span id="save-status" class="save-status">Saved locally</span></div>
-      <section id="shop-grid" class="shop-grid" aria-label="Mall shops"></section>
-
-      <section class="lower-grid">
-        <div class="activity-panel"><div class="section-heading compact"><div><p class="kicker">A running history</p><h2>Floor report</h2></div></div><div id="activity-log" class="activity-log"></div></div>
-        <aside class="help-panel"><span class="label">How to grow</span><h3>Open → earn → upgrade</h3><p>Your stores earn every second while they are open. Spend the balance on upgrades, then unlock bigger stores as the mall fills up.</p><div class="legend"><span><i class="dot open"></i>Open and earning</span><span><i class="dot closed"></i>Ready to open</span></div></aside>
+    <main class="game-layout">
+      <section class="click-zone">
+        <div class="stage-label"><span class="live-dot"></span><span id="status-line">Click to start your fortune</span></div>
+        <div id="click-stage" class="click-stage">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <button id="money-orb" class="money-orb" aria-label="Click to earn money"><span class="orb-symbol">$</span><span class="orb-glint"></span></button>
+          <div id="particles" class="particles" aria-hidden="true"></div>
+        </div>
+        <p class="click-hint">Tap the coin · build your passive income · repeat</p>
+        <div class="buy-controls" aria-label="Generator purchase amount"><span class="label">Buy amount</span><div class="amount-buttons"><button class="amount-button active" data-amount="1">×1</button><button class="amount-button" data-amount="10">×10</button><button class="amount-button" data-amount="25">×25</button><button class="amount-button" data-amount="100">×100</button><button class="amount-button" data-amount="max">MAX</button></div></div>
       </section>
+
+      <section class="panel upgrades-panel"><div class="panel-heading"><div><p class="eyebrow">Make every tap count</p><h2>Click upgrades</h2></div><span class="panel-count" id="upgrade-count">0 bought</span></div><div id="upgrade-list" class="upgrade-list"></div></section>
+
+      <section class="panel generators-panel"><div class="panel-heading"><div><p class="eyebrow">Money while you sleep</p><h2>Auto clickers</h2></div><span class="panel-count" id="generator-count">0 owned</span></div><div id="generator-list" class="generator-list"></div></section>
     </main>
+
+    <section class="utility-row"><button class="utility-button" data-action="export">Export save</button><button class="utility-button" data-action="import">Import save</button><button class="utility-button danger" data-action="reset">Reset game</button><input id="import-file" type="file" accept="application/json" hidden /></section>
+    <section id="stats-panel" class="stats-panel hidden"><div class="panel-heading"><div><p class="eyebrow">Your numbers</p><h2>Statistics</h2></div><button class="close-button" data-action="stats">×</button></div><div id="stats-grid" class="stats-grid"></div></section>
   </div>
+
+  <div id="offline-modal" class="modal-backdrop hidden"><div class="modal offline-modal"><div class="modal-icon">↗</div><p class="eyebrow">Welcome back</p><h2>You were away</h2><p id="offline-duration" class="modal-copy"></p><div class="offline-earnings"><span>Your businesses earned</span><strong id="offline-money">$0</strong></div><button class="primary-button" data-action="close-offline">Collect earnings</button></div></div>
   <div id="toast" class="toast" role="status"></div>
   <script src="app.js"></script>
 </body>

@@ -1,64 +1,63 @@
-/* Mall Idle is intentionally standalone. Its save key is separate from every previous prototype. */
-const SAVE_KEY = 'mall-idle-save';
-const TICK_MS = 250;
-const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
-const SHOPS = [
-  {id:'cafe', name:'Corner Cafe', icon:'☕', color:'#ffba62', description:'A cozy first stop for mall visitors.', baseCost:0, baseIncome:2.5, unlockAt:0},
-  {id:'boutique', name:'Neon Boutique', icon:'✦', color:'#f58ab7', description:'Trendy clothes bring in a stylish crowd.', baseCost:250, baseIncome:8, unlockAt:1},
-  {id:'arcade', name:'Pixel Arcade', icon:'◎', color:'#78d5ff', description:'Bright games keep shoppers around longer.', baseCost:1200, baseIncome:35, unlockAt:2},
-  {id:'food-court', name:'Food Court', icon:'♨', color:'#ff826f', description:'A busy food court makes the whole mall hum.', baseCost:7500, baseIncome:180, unlockAt:3},
-  {id:'cinema', name:'Moonlight Cinema', icon:'▣', color:'#b795ff', description:'Big screens, big crowds, bigger returns.', baseCost:45000, baseIncome:900, unlockAt:4},
-  {id:'market', name:'Grand Market', icon:'▤', color:'#76e2ae', description:'The anchor store your growing mall deserves.', baseCost:250000, baseIncome:4500, unlockAt:5},
-  {id:'sky-lounge', name:'Sky Lounge', icon:'◇', color:'#ffd166', description:'A premium rooftop destination for VIPs.', baseCost:1500000, baseIncome:24000, unlockAt:6}
+/* Money Clicker is a local-only idle game. No accounts, backend, or shared prototype saves. */
+const SAVE_KEY = 'money-clicker-save-v1';
+const SAVE_INTERVAL = 3000;
+const OFFLINE_CAP = 12 * 60 * 60;
+const GENERATORS = [
+  {id:'auto-clicker',name:'Auto Clicker',icon:'⌁',baseCost:50,perSecond:1,milestones:[[10,2],[25,2],[50,3],[100,5]]},
+  {id:'cash-register',name:'Cash Register',icon:'▣',baseCost:250,perSecond:5,milestones:[[10,2],[25,2],[50,3],[100,5]]},
+  {id:'atm',name:'ATM',icon:'▤',baseCost:1000,perSecond:20,milestones:[[10,2],[25,2],[50,3],[100,5]]},
+  {id:'money-printer',name:'Money Printer',icon:'▥',baseCost:5000,perSecond:100,milestones:[[10,2],[25,2],[50,3],[100,5]]},
+  {id:'bank',name:'Bank',icon:'⌂',baseCost:25000,perSecond:500,milestones:[[10,2],[25,2],[50,3],[100,5]]},
+  {id:'investment-firm',name:'Investment Firm',icon:'↗',baseCost:150000,perSecond:3000,milestones:[[10,2],[25,2],[50,3],[100,5]]},
+  {id:'money-factory',name:'Money Factory',icon:'⚙',baseCost:1000000,perSecond:20000,milestones:[[10,2],[25,2],[50,3],[100,5]]},
+  {id:'mega-corporation',name:'Mega Corporation',icon:'◆',baseCost:10000000,perSecond:250000,milestones:[[10,2],[25,2],[50,3],[100,5]]}
 ];
-const DEFAULT_STATE = {version:1,money:0,totalEarned:0,lastTick:Date.now(),shops:{},activity:[{time:Date.now(),text:'Your mall is ready. Open the Corner Cafe to begin earning.'}]};
-let state = loadState(); let toastTimer;
-const $ = id => document.getElementById(id);
-const money = value => `$${Math.floor(Math.max(0,value)).toLocaleString()}`;
-const compactMoney = value => value >= 1000000 ? `$${(value/1000000).toFixed(1)}m` : value >= 1000 ? `$${(value/1000).toFixed(value>=10000?0:1)}k` : money(value);
-const shopData = id => SHOPS.find(shop=>shop.id===id);
-function freshShop(shop){return {owned:shop.id==='cafe',open:false,level:1,upgradeCount:0};}
-function loadState(){
-  try {
-    const saved=JSON.parse(localStorage.getItem(SAVE_KEY));
-    const shops={};
-    for(const shop of SHOPS) shops[shop.id]={...freshShop(shop),...(saved?.shops?.[shop.id]||{})};
-    if(!saved) return {...structuredClone(DEFAULT_STATE),shops};
-    return {...structuredClone(DEFAULT_STATE),...saved,shops,activity:Array.isArray(saved.activity)&&saved.activity.length?saved.activity:structuredClone(DEFAULT_STATE.activity)};
-  } catch { const shops={}; for(const shop of SHOPS)shops[shop.id]=freshShop(shop); return {...structuredClone(DEFAULT_STATE),shops}; }
-}
-function save(){state.lastTick=Date.now();localStorage.setItem(SAVE_KEY,JSON.stringify(state));$('save-status').textContent='Saved locally';}
-function openStores(){return SHOPS.filter(shop=>state.shops[shop.id].owned&&state.shops[shop.id].open);}
-function incomeRate(){return openStores().reduce((total,shop)=>total+shop.baseIncome*levelMultiplier(shop),0);}
-function levelMultiplier(shop){return Math.pow(1.35,state.shops[shop.id].level-1);}
-function upgradeCost(shop){const data=state.shops[shop.id];return Math.ceil(20*Math.pow(1.68,data.upgradeCount)*(1+shop.baseCost/900));}
-function addActivity(text){state.activity.unshift({time:Date.now(),text});state.activity=state.activity.slice(0,16);}
-function grantIncome(seconds){const rate=incomeRate();if(seconds<=0||rate<=0)return 0;const earned=rate*seconds;state.money+=earned;state.totalEarned+=earned;return earned;}
-function catchUp(){const elapsed=Math.min(OFFLINE_CAP_SECONDS,Math.max(0,(Date.now()-state.lastTick)/1000));const earned=grantIncome(elapsed);state.lastTick=Date.now();if(earned>0&&elapsed>3){addActivity(`Your stores earned ${money(earned)} while you were away.`);save();}}
-function formatRate(rate){return rate<10?`$${rate.toFixed(1)} / sec`:money(rate)+' / sec';}
-function mallStatus(){const count=openStores().length;if(!count)return ['A quiet beginning','Open your first store to bring the mall to life.'];if(count<3)return ['The doors are open','Your first shoppers are finding the mall.'];if(count<5)return ['A growing destination','The mall is becoming a real hangout.'];if(count<7)return ['A city landmark','Every corner is earning its keep.'];return ['A retail empire','You built the mall everyone talks about.'];}
-function render(){
-  const rate=incomeRate(),open=openStores(),owned=SHOPS.filter(shop=>state.shops[shop.id].owned),status=mallStatus();
-  $('money').textContent=money(state.money);$('income-rate').textContent=formatRate(rate);$('earn-ticker').textContent=rate?`Earning ${formatRate(rate)} automatically`:'Open a store to start earning';$('mall-level').textContent=status[0];$('mall-message').textContent=status[1];$('open-count').textContent=open.length;$('total-levels').textContent=owned.reduce((sum,shop)=>sum+state.shops[shop.id].level-1,0);$('total-earned').textContent=compactMoney(state.totalEarned);
-  $('shop-grid').innerHTML=SHOPS.map(shop=>renderShop(shop,owned.length)).join('');
-  $('activity-log').innerHTML=state.activity.map(item=>`<div class="activity"><time>${new Date(item.time).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}</time><strong>${item.text}</strong></div>`).join('');
-}
-function renderShop(shop,ownedCount){
-  const data=state.shops[shop.id],locked=!data.owned&&ownedCount<shop.unlockAt,rate=shop.baseIncome*levelMultiplier(shop),cost=shop.baseCost,upgrade=upgradeCost(shop);
-  let action='';
-  if(locked) action=`<button class="shop-action" disabled>Unlocks with ${shop.unlockAt} owned</button>`;
-  else if(!data.owned) action=`<button class="shop-action" data-buy="${shop.id}" ${state.money<cost?'disabled':''}>Buy shop · ${money(cost)}</button>`;
-  else if(!data.open) action=`<button class="shop-action" data-open="${shop.id}">${shop.id==='cafe'&&data.level===1?'Open Store':'Open store'}</button>`;
-  else action=`<button class="shop-action" data-upgrade="${shop.id}" ${state.money<upgrade?'disabled':''}>Upgrade · ${money(upgrade)}</button>`;
-  const stateLabel=locked?'Locked':!data.owned?'Available':data.open?'Open':'Closed';
-  return `<article class="shop-card ${locked?'locked':''}" style="--card-color:${shop.color}"><div class="shop-top"><div class="shop-icon">${shop.icon}</div><span class="shop-state ${data.open?'open':''}">${stateLabel}</span></div><h3>${shop.name}</h3><p class="shop-description">${locked?`Own ${shop.unlockAt} more ${shop.unlockAt===1?'shop':'shops'} to unlock this space.`:shop.description}</p><div class="shop-income">${formatRate(rate)} <span>at level ${data.level}</span></div><div class="level-line"><span>${data.open?'Currently earning':'Ready when you are'}</span><strong>${data.owned?`Lv. ${data.level}`:'—'}</strong></div>${action}</article>`;
-}
-function buyShop(id){const shop=shopData(id),data=state.shops[id],ownedCount=SHOPS.filter(item=>state.shops[item.id].owned).length;if(data.owned||ownedCount<shop.unlockAt||state.money<shop.baseCost)return;state.money-=shop.baseCost;data.owned=true;addActivity(`Bought the ${shop.name} space for ${money(shop.baseCost)}.`);save();render();notify(`${shop.name} is ready to open.`);}
-function openShop(id){const shop=shopData(id),data=state.shops[id];if(!data.owned||data.open)return;data.open=true;addActivity(`Opened the ${shop.name}. Income is now ${formatRate(shop.baseIncome)}.`);save();render();notify(`${shop.name} is open!`);}
-function upgradeShop(id){const shop=shopData(id),data=state.shops[id],cost=upgradeCost(shop);if(!data.owned||!data.open||state.money<cost)return;state.money-=cost;data.level++;data.upgradeCount++;addActivity(`Upgraded the ${shop.name} to level ${data.level}.`);save();render();notify(`${shop.name} upgraded.`);}
+const CLICK_UPGRADES = [
+  {id:'better-fingers',name:'Better Fingers',icon:'✋',description:'+1 money per click',baseCost:25,add:1},
+  {id:'reinforced-mouse',name:'Reinforced Mouse',icon:'⌁',description:'+3 money per click',baseCost:100,add:3},
+  {id:'golden-clicking',name:'Golden Clicking',icon:'✦',description:'+10 money per click',baseCost:500,add:10},
+  {id:'power-clicks',name:'Power Clicks',icon:'ϟ',description:'+40 money per click',baseCost:2500,add:40},
+  {id:'money-magnet',name:'Money Magnet',icon:'◈',description:'+150 money per click',baseCost:15000,add:150},
+  {id:'diamond-hands',name:'Diamond Hands',icon:'◇',description:'+750 money per click',baseCost:100000,add:750}
+];
+const DEFAULT_STATE = {version:1,money:0,lifetime:0,clicks:0,clickEarned:0,passiveEarned:0,timePlayed:0,lastTick:Date.now(),lastSeen:Date.now(),clickUpgrades:{},generators:{},milestones:[],activity:[{time:Date.now(),text:'Your balance is $0. Click the coin to begin.'}]};
+let state=loadState(); let selectedAmount=1; let toastTimer; let lastAutoSave=Date.now();
+const $=id=>document.getElementById(id); const fmt=n=>formatNumber(n); const compact=n=>formatNumber(n);
+function loadState(){try{const saved=JSON.parse(localStorage.getItem(SAVE_KEY));if(!saved)return structuredClone(DEFAULT_STATE);const clickUpgrades={...saved.clickUpgrades},generators={...saved.generators};for(const x of CLICK_UPGRADES)clickUpgrades[x.id]=Number(clickUpgrades[x.id]||0);for(const x of GENERATORS)generators[x.id]=Number(generators[x.id]||0);return {...structuredClone(DEFAULT_STATE),...saved,clickUpgrades,generators,milestones:Array.isArray(saved.milestones)?saved.milestones:[],activity:Array.isArray(saved.activity)&&saved.activity.length?saved.activity:structuredClone(DEFAULT_STATE.activity)};}catch{return structuredClone(DEFAULT_STATE);}}
+function formatNumber(value){if(!Number.isFinite(value))return '∞';const n=Math.max(0,value),units=['','K','M','B','T','Qa','Qi','Sx','Sp','Oc','No','Dc'];let unit=0,v=n;while(v>=1000&&unit<units.length-1){v/=1000;unit++;}if(unit===0)return `$${Math.floor(v).toLocaleString()}`;const digits=v>=100?0:v>=10?1:2;return `$${v.toFixed(digits).replace(/\.0+$|(?<=\.[0-9])0+$/,'')}${units[unit]}`;}
+function plainNumber(value){if(!Number.isFinite(value))return '∞';return formatNumber(value).replace('$','');}
+function costFor(base,owned,amount=1){if(amount<=0)return 0;const scale=1.15;return base*Math.pow(scale,owned)*(Math.pow(scale,amount)-1)/(scale-1);}
+function upgradeCost(upgrade){return Math.ceil(upgrade.baseCost*Math.pow(1.15,state.clickUpgrades[upgrade.id]||0));}
+function generatorMultiplier(generator){const owned=state.generators[generator.id]||0;return generator.milestones.reduce((mult,[needed,bonus])=>owned>=needed?mult*bonus:mult,1);}
+function generatorRate(generator){return generator.perSecond*generatorMultiplier(generator)*(state.generators[generator.id]||0);}
+function perSecond(){return GENERATORS.reduce((sum,g)=>sum+generatorRate(g),0);}
+function clickPower(){return 1+CLICK_UPGRADES.reduce((sum,u)=>sum+(state.clickUpgrades[u.id]||0)*u.add,0);}
+function totalGenerators(){return GENERATORS.reduce((sum,g)=>sum+(state.generators[g.id]||0),0);}
+function totalUpgrades(){return CLICK_UPGRADES.reduce((sum,u)=>sum+(state.clickUpgrades[u.id]||0),0);}
+function save(){state.lastSeen=Date.now();localStorage.setItem(SAVE_KEY,JSON.stringify(state));lastAutoSave=Date.now();$('save-state').textContent='Saved locally';}
+function log(text){state.activity.unshift({time:Date.now(),text});state.activity=state.activity.slice(0,15);}
+function addMoney(amount,kind){if(amount<=0)return;state.money+=amount;state.lifetime+=amount;if(kind==='click'){state.clicks++;state.clickEarned+=amount;}else state.passiveEarned+=amount;}
+function applyPassive(seconds){const earned=perSecond()*seconds;if(earned>0)addMoney(earned,'passive');return earned;}
+function formatDuration(seconds){const s=Math.max(0,Math.floor(seconds));const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;if(h)return `${h} hour${h===1?'':'s'} ${m} minute${m===1?'':'s'}`;if(m)return `${m} minute${m===1?'':'s'} ${sec} second${sec===1?'':'s'}`;return `${sec} second${sec===1?'':'s'}`;}
+function catchUp(){const now=Date.now(),elapsed=Math.max(0,(now-(state.lastSeen||now))/1000),capped=Math.min(elapsed,OFFLINE_CAP),earned=applyPassive(capped);state.timePlayed+=capped;state.lastTick=now;state.lastSeen=now;if(earned>0&&elapsed>15){$('offline-duration').textContent=`You were away for ${formatDuration(Math.min(elapsed,OFFLINE_CAP))}.`;$('offline-money').textContent=fmt(earned);$('offline-modal').classList.remove('hidden');log(`Businesses earned ${fmt(earned)} while you were away.`);}save();}
+function render(){const rate=perSecond(),power=clickPower();$('money').textContent=fmt(state.money);$('per-click').textContent=fmt(power);$('per-second').textContent=fmt(rate);$('status-line').textContent=rate?`Your money is working at ${fmt(rate)} / sec`:'Click the coin to start your fortune';$('upgrade-count').textContent=`${totalUpgrades()} bought`;$('generator-count').textContent=`${totalGenerators()} owned`;renderUpgrades();renderGenerators();renderStats();}
+function renderUpgrades(){$('upgrade-list').innerHTML=CLICK_UPGRADES.map(upgrade=>{const owned=state.clickUpgrades[upgrade.id]||0,cost=upgradeCost(upgrade),can=state.money>=cost;return `<article class="upgrade-card ${can?'can-buy':''}"><div class="card-row"><div class="card-title"><i class="card-icon">${upgrade.icon}</i><div><strong>${upgrade.name}</strong><span>${upgrade.description}</span></div></div><span class="card-price ${can?'':'dim'}">${fmt(cost)}</span></div><button class="buy-button" data-upgrade="${upgrade.id}" ${can?'':'disabled'}>Buy · ${owned} owned</button></article>`;}).join('');}
+function maxAffordable(generator){let owned=state.generators[generator.id]||0;if(state.money<generator.baseCost*Math.pow(1.15,owned))return 0;let low=1,high=1;while(costFor(generator.baseCost,owned,high)<=state.money&&high<1e9)high*=2;while(low<high){const mid=Math.ceil((low+high)/2);if(costFor(generator.baseCost,owned,mid)<=state.money)low=mid;else high=mid-1;}return low;}
+function purchaseAmount(generator){return selectedAmount==='max'?maxAffordable(generator):selectedAmount;}
+function renderGenerators(){$('generator-list').innerHTML=GENERATORS.map(generator=>{const owned=state.generators[generator.id]||0,amount=purchaseAmount(generator),cost=amount?costFor(generator.baseCost,owned,amount):0,can=amount>0&&state.money>=cost,mult=generatorMultiplier(generator),rate=generatorRate(generator),next=generator.milestones.find(([needed])=>owned<needed),milestones=generator.milestones.map(([needed,bonus])=>`<span class="milestone ${owned>=needed?'unlocked':''}">${needed}: ×${bonus}</span>`).join('');return `<article class="generator-card ${can?'can-buy':''}"><div class="card-row"><div class="card-title"><i class="card-icon generator-icon">${generator.icon}</i><div><strong>${generator.name}</strong><span>Owned: ${owned}</span></div></div><span class="card-price ${can?'':'dim'}">${amount?fmt(cost):'—'}</span></div><p class="generator-copy">+${plainNumber(generator.perSecond*mult)}/sec each · ${fmt(rate)}/sec total</p><p class="generator-total">${next?`Next boost at ${next[0]} owned (×${next[1]})`: 'All milestones unlocked'}</p><div class="milestone-row">${milestones}</div><button class="buy-button ${can?'':'secondary'}" data-generator="${generator.id}" ${can?'':'disabled'}>${amount?`Buy ×${amount===1?'1':amount} · ${fmt(cost)}`:'Cannot afford'}</button></article>`;}).join('');}
+function renderStats(){const stats=[['Current money',fmt(state.money)],['Lifetime money',fmt(state.lifetime)],['Manual clicks',state.clicks.toLocaleString()],['Money from clicks',fmt(state.clickEarned)],['Passive money',fmt(state.passiveEarned)],['Money per click',fmt(clickPower())],['Money per second',fmt(perSecond())],['Generators owned',totalGenerators().toLocaleString()],['Upgrades purchased',totalUpgrades().toLocaleString()],['Time played',formatDuration(state.timePlayed)]];$('stats-grid').innerHTML=stats.map(([label,value])=>`<div class="stat"><span>${label}</span><strong>${value}</strong></div>`).join('');}
 function notify(text){const node=$('toast');node.textContent=text;node.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.classList.remove('show'),2400);}
-function reset(){if(!confirm('Close the entire mall and start over?'))return;localStorage.removeItem(SAVE_KEY);state=loadState();render();notify('A brand-new mall is ready.');}
-document.addEventListener('click',event=>{const action=event.target.closest('[data-action]');if(action?.dataset.action==='reset')reset();const buy=event.target.closest('[data-buy]');if(buy)buyShop(buy.dataset.buy);const open=event.target.closest('[data-open]');if(open)openShop(open.dataset.open);const upgrade=event.target.closest('[data-upgrade]');if(upgrade)upgradeShop(upgrade.dataset.upgrade);});
-catchUp();
-setInterval(()=>{const now=Date.now(),seconds=Math.min(2,(now-state.lastTick)/1000);if(seconds<=0)return;const earned=grantIncome(seconds);state.lastTick=now;if(earned>0){save();render();}},TICK_MS);
-render();
+function burst(x,y){const stage=$('particles');for(let i=0;i<8;i++){const p=document.createElement('i');p.className='particle';p.style.left=`${x}px`;p.style.top=`${y}px`;p.style.setProperty('--x',`${Math.cos(i/8*Math.PI*2)*55}px`);p.style.setProperty('--y',`${Math.sin(i/8*Math.PI*2)*55}px`);stage.appendChild(p);setTimeout(()=>p.remove(),600);}}
+function floatMoney(event,amount){const text=document.createElement('span');text.className='float-money';text.textContent=`+${fmt(amount)}`;text.style.left=`${event.clientX-18}px`;text.style.top=`${event.clientY-12}px`;document.body.appendChild(text);setTimeout(()=>text.remove(),850);}
+function clickMoney(event){const amount=clickPower();addMoney(amount,'click');state.timePlayed+=0;const orb=$('money-orb');orb.classList.remove('bounce');void orb.offsetWidth;orb.classList.add('bounce');floatMoney(event,amount);burst(event.clientX,event.clientY);render();}
+function buyUpgrade(id){const upgrade=CLICK_UPGRADES.find(item=>item.id===id),cost=upgradeCost(upgrade);if(state.money<cost)return;state.money-=cost;state.clickUpgrades[id]++;state.lifetime+=0;log(`Bought ${upgrade.name}. Clicks are now worth ${fmt(clickPower())}.`);save();render();notify(`${upgrade.name} purchased`);}
+function checkMilestones(generator,before,after){for(const [needed,bonus] of generator.milestones){const key=`${generator.id}-${needed}`;if(before<needed&&after>=needed&&!state.milestones.includes(key)){state.milestones.push(key);log(`${generator.name} milestone: ${needed} owned. Production multiplied ×${bonus}.`);notify(`${generator.name.toUpperCase()} MILESTONE! ${needed} owned · production ×${bonus}`);}}}
+function buyGenerator(id){const generator=GENERATORS.find(item=>item.id===id),amount=purchaseAmount(generator),cost=amount?costFor(generator.baseCost,state.generators[id]||0,amount):0;if(!amount||state.money<cost)return;const before=state.generators[id]||0;state.money-=cost;state.generators[id]=before+amount;checkMilestones(generator,before,state.generators[id]);log(`Bought ${amount} ${generator.name}${amount===1?'':'s'}.`);save();render();notify(`${generator.name} added`);}
+function exportSave(){save();const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='money-clicker-save.json';link.click();URL.revokeObjectURL(url);notify('Save exported');}
+function importSave(file){const reader=new FileReader();reader.onload=()=>{try{const incoming=JSON.parse(reader.result);if(typeof incoming.money!=='number'||!incoming.generators||!incoming.clickUpgrades)throw Error('invalid');localStorage.setItem(SAVE_KEY,JSON.stringify({...structuredClone(DEFAULT_STATE),...incoming}));state=loadState();render();notify('Save imported');}catch{notify('That save file is not valid.');}};reader.readAsText(file);}
+function reset(){if(!confirm('Reset all Money Clicker progress? This cannot be undone.'))return;localStorage.removeItem(SAVE_KEY);state=loadState();render();notify('Fresh start: $0.');}
+document.addEventListener('click',event=>{const orb=event.target.closest('#money-orb');if(orb)clickMoney(event);const amount=event.target.closest('[data-amount]');if(amount){selectedAmount=amount.dataset.amount==='max'?'max':Number(amount.dataset.amount);document.querySelectorAll('.amount-button').forEach(button=>button.classList.toggle('active',button===amount));render();}const upgrade=event.target.closest('[data-upgrade]');if(upgrade)buyUpgrade(upgrade.dataset.upgrade);const generator=event.target.closest('[data-generator]');if(generator)buyGenerator(generator.dataset.generator);const action=event.target.closest('[data-action]');if(!action)return;if(action.dataset.action==='save'){save();notify('Game saved');}if(action.dataset.action==='export')exportSave();if(action.dataset.action==='import')$('import-file').click();if(action.dataset.action==='reset')reset();if(action.dataset.action==='stats')$('stats-panel').classList.toggle('hidden');if(action.dataset.action==='close-offline')$('offline-modal').classList.add('hidden');});
+$('import-file').addEventListener('change',event=>{if(event.target.files[0])importSave(event.target.files[0]);event.target.value='';});
+window.addEventListener('beforeunload',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save();});
+catchUp();render();
+setInterval(()=>{const now=Date.now(),seconds=Math.min(1,(now-state.lastTick)/1000);if(seconds<=0)return;state.lastTick=now;state.timePlayed+=seconds;applyPassive(seconds);if(now-lastAutoSave>=SAVE_INTERVAL)save();render();},100);
