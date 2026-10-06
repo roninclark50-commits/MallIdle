@@ -20,6 +20,7 @@
 .selected-amount { display:block; margin-top:3px; color:var(--gold); font-size:.7rem; }
 .mobile-topbar,.mobile-balance-card,.mobile-nav { display:none; }
 @media (max-width:650px) {
+  html,body,button { -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; }
   html,body { touch-action:pan-x pan-y; }
   button { touch-action:manipulation; }
   body { background-image:radial-gradient(circle at 50% -12%,#49365b66,transparent 22rem),linear-gradient(180deg,#0b0d19,#10152a); }
