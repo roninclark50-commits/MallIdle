@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#0d1020" />
   <title>Money Clicker</title>
-  <link rel="stylesheet" href="styles.css?v=11" />
+  <link rel="stylesheet" href="styles.css?v=12" />
 </head>
 <body data-mobile-view="play">
   <div class="game-shell">
@@ -20,10 +20,10 @@
     </section>
 
     <nav class="mobile-nav" aria-label="Mobile game sections">
-      <button class="mobile-nav-button active" data-mobile-view="play">Play</button>
-      <button class="mobile-nav-button" data-mobile-view="upgrades">Upgrades</button>
-      <button class="mobile-nav-button" data-mobile-view="auto">Auto</button>
-      <button class="mobile-nav-button" data-mobile-view="stats">Stats</button>
+      <button class="mobile-nav-button game-view-button active" data-mobile-view="play">Play</button>
+      <button class="mobile-nav-button game-view-button" data-mobile-view="upgrades">Upgrades</button>
+      <button class="mobile-nav-button game-view-button" data-mobile-view="auto">Auto</button>
+      <button class="mobile-nav-button game-view-button" data-mobile-view="stats">Stats</button>
     </nav>
 
     <header class="topbar desktop-topbar">
@@ -36,6 +36,13 @@
       <div class="resource"><span class="label">Per click</span><strong id="per-click">$1</strong></div>
       <div class="resource"><span class="label">Per second</span><strong id="per-second">$0</strong></div>
     </section>
+
+    <nav class="desktop-nav" aria-label="Desktop game sections">
+      <button class="desktop-nav-button game-view-button active" data-mobile-view="play">Play</button>
+      <button class="desktop-nav-button game-view-button" data-mobile-view="upgrades">Upgrades</button>
+      <button class="desktop-nav-button game-view-button" data-mobile-view="auto">Auto</button>
+      <button class="desktop-nav-button game-view-button" data-mobile-view="stats">Stats</button>
+    </nav>
 
     <main class="game-layout">
       <section class="click-zone" data-mobile-section="play">
@@ -60,6 +67,6 @@
 
   <div id="offline-modal" class="modal-backdrop hidden"><div class="modal offline-modal"><div class="modal-icon">↗</div><p class="eyebrow">Welcome back</p><h2>You were away</h2><p id="offline-duration" class="modal-copy"></p><div class="offline-earnings"><span>Your businesses earned</span><strong id="offline-money">$0</strong></div><button class="primary-button" data-action="close-offline">Collect earnings</button></div></div>
   <div id="toast" class="toast" role="status"></div>
-  <script src="app.js?v=11"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>
