@@ -12,4 +12,9 @@
 @media (max-width:980px) { .game-layout { grid-template-columns:minmax(270px,.95fr) minmax(250px,1fr); } .click-zone { grid-row:span 2; } }
 @media (max-width:650px) { .game-shell { padding:15px 10px 35px; } .topbar { align-items:flex-start; } .top-actions { flex-wrap:wrap; justify-content:flex-end; } .save-state { display:none; } .resource-bar { display:grid; grid-template-columns:1.3fr 1fr; } .resource { padding:13px; } .resource.balance { grid-row:span 2; } .game-layout { display:flex; flex-direction:column; } .click-zone,.panel { width:100%; } .click-zone { min-height:0; } .click-stage { height:315px; } .money-orb { width:175px; height:175px; } .orb-symbol { font-size:5rem; } .buy-controls { margin-top:19px; } .amount-buttons { gap:2px; } .amount-button { padding:6px 5px; } .stats-grid { grid-template-columns:1fr 1fr; } }
 .money-orb:hover { transform:translateY(-6px) scale(1.03); }
+.money-orb { border:0; background:transparent; box-shadow:none; overflow:visible; }
+.coin-sprite { display:block; width:100%; height:100%; object-fit:contain; pointer-events:none; user-select:none; filter:drop-shadow(0 20px 18px #05050a99); transition:transform .12s cubic-bezier(.2,1.5,.4,1),filter .12s; }
+.money-orb:hover .coin-sprite { transform:translateY(-5px) scale(1.025); filter:drop-shadow(0 25px 20px #05050acc) brightness(1.08); }
+.money-orb:active,.money-orb.bounce { transform:scale(.95) translateY(4px); box-shadow:none; }
+.money-orb:active .coin-sprite,.money-orb.bounce .coin-sprite { transform:scale(.9) rotate(-2deg); filter:drop-shadow(0 9px 10px #05050acc) brightness(1.14); }
 .selected-amount { display:block; margin-top:3px; color:var(--gold); font-size:.7rem; }
