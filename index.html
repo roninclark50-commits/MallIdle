@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101827" />
+  <title>LifeSim</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Your little corner of the world</p>
+        <h1>Life<span>book</span></h1>
+      </div>
+      <div class="top-actions"><span class="save-dot">● Saved</span><button class="icon-button" data-action="reset" title="Start a new life">↻</button></div>
+    </header>
+
+    <section class="hero-card">
+      <div class="avatar-mark" aria-hidden="true"><span>✦</span></div>
+      <div class="hero-main">
+        <span class="label">The story so far</span>
+        <strong id="age">18y 0m</strong>
+        <span id="life-stage" class="muted">Young adult</span>
+      </div>
+      <div class="hero-money"><span class="label">Money</span><strong id="money">$250</strong></div>
+      <div class="hero-job"><span class="label">Current job</span><strong id="job">Unemployed</strong><span id="income" class="muted">$0 / month</span></div>
+    </section>
+
+    <section class="quick-stats" aria-label="Life overview">
+      <div><span>Education</span><strong id="education">High School / GED</strong></div>
+      <div><span>Housing</span><strong id="housing">Living with family</strong></div>
+      <div><span>Happiness</span><strong id="happiness">65</strong></div>
+      <div><span>Energy</span><strong id="energy">80</strong></div>
+    </section>
+
+    <nav class="tabs" aria-label="Life areas">
+      <button class="tab active" data-tab="life"><span>☀</span>Life</button>
+      <button class="tab" data-tab="career"><span>↗</span>Career</button>
+      <button class="tab" data-tab="education-panel"><span>✎</span>Learn</button>
+      <button class="tab" data-tab="skills"><span>✦</span>Skills</button>
+      <button class="tab" data-tab="shop"><span>⌂</span>Home</button>
+      <button class="tab" data-tab="stats"><span>◒</span>Stats</button>
+      <button class="tab" data-tab="timeline"><span>♡</span>Story</button>
+    </nav>
+
+    <main>
+      <section id="life" class="panel active-panel">
+        <div class="panel-heading"><div><p class="eyebrow">Your next chapter</p><h2>Choose what to do</h2></div><span id="action-count" class="pill">Ready</span></div>
+        <div id="life-actions" class="action-grid"></div>
+        <div class="panel-heading compact"><h3>Latest updates</h3></div>
+        <div id="activity-log" class="activity-log"></div>
+      </section>
+
+      <section id="career" class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">Build your path</p><h2>Career</h2></div></div>
+        <p class="panel-copy">Jobs are stepping stones. Meet the requirements to move up a path and grow your income.</p>
+        <div id="career-list" class="card-list"></div>
+      </section>
+
+      <section id="education-panel" class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">Invest in yourself</p><h2>Education</h2></div></div>
+        <p class="panel-copy">Study in short sessions. A completed program unlocks new work and faster progression.</p>
+        <div id="education-list" class="card-list"></div>
+      </section>
+
+      <section id="skills" class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">Small gains add up</p><h2>Skills</h2></div></div>
+        <p class="panel-copy">Work and activities improve skills naturally. Train deliberately when you need a boost.</p>
+        <div id="skill-list" class="skill-list"></div>
+      </section>
+
+      <section id="shop" class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">Spend with purpose</p><h2>Shop & housing</h2></div></div>
+        <div class="subheading"><h3>Housing</h3><span class="muted">Monthly costs are paid as time passes.</span></div>
+        <div id="housing-list" class="card-list"></div>
+        <div class="subheading"><h3>Purchases</h3></div>
+        <div id="purchase-list" class="card-list"></div>
+      </section>
+
+      <section id="stats" class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">The whole picture</p><h2>Personal stats</h2></div></div>
+        <div id="stats-list" class="stats-grid"></div>
+      </section>
+
+      <section id="timeline" class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">Your story so far</p><h2>Life timeline</h2></div></div>
+        <div id="milestone-list" class="timeline"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="decision-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="decision-title">
+    <div class="modal"><span class="eyebrow">A moment in your life</span><h2 id="decision-title"></h2><p id="decision-text"></p><div id="decision-options" class="decision-options"></div></div>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

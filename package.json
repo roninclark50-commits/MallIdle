@@ -1,0 +1,9 @@
+{
+  "name": "lifebook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A lightweight life progression simulator",
+  "scripts": {
+    "start": "python3 -m http.server ${PORT:-4173}"
+  }
+}
