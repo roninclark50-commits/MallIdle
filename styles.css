@@ -18,6 +18,13 @@
 .money-orb:active,.money-orb.bounce { transform:scale(.95) translateY(4px); box-shadow:none; }
 .money-orb:active .coin-sprite,.money-orb.bounce .coin-sprite { transform:scale(.9) rotate(-2deg); filter:drop-shadow(0 9px 10px #05050acc) brightness(1.14); }
 .selected-amount { display:block; margin-top:3px; color:var(--gold); font-size:.7rem; }
+.upgrade-card,.generator-card { isolation:isolate; overflow:visible; }
+.upgrade-card.rarity-uncommon,.generator-card.rarity-uncommon { border-color:#4fc9f1; box-shadow:0 0 0 1px #4fc9f155,0 0 14px #35bfe955; }
+.upgrade-card.rarity-rare,.generator-card.rarity-rare { border-color:#9b7cff; box-shadow:0 0 0 1px #9b7cff66,0 0 17px #805cff66; }
+.upgrade-card.rarity-epic,.generator-card.rarity-epic { border-color:#ffb84d; box-shadow:0 0 0 1px #ffb84d66,0 0 19px #ff8a3d66; }
+.upgrade-card.rarity-max,.generator-card.rarity-max { border-color:#fff0a6; box-shadow:0 0 0 1px #fff4bd99,0 0 21px #ff83e866,0 0 38px #6ee7f544; }
+.upgrade-card.rarity-max::before,.generator-card.rarity-max::before { content:""; position:absolute; z-index:-1; inset:-4px; border-radius:inherit; background:conic-gradient(from 0deg,#ff5c8a,#ffd166,#76e0a6,#6ee7f5,#9a8cff,#ff5c8a); filter:blur(12px); opacity:.55; pointer-events:none; animation:rarity-shift 4.5s linear infinite; }
+@keyframes rarity-shift { to { transform:rotate(360deg); filter:blur(9px) hue-rotate(30deg); } }
 .mobile-topbar,.mobile-balance-card,.mobile-nav { display:none; }
 @media (max-width:650px) {
   html,body,button { -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; }
