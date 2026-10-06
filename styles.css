@@ -97,3 +97,45 @@
   body[data-mobile-view="stats"] #stats-panel { position:relative; inset:auto; width:min(100%,1000px); max-height:none; margin:14px auto 0; transform:none; }
   body[data-mobile-view="stats"] #stats-panel .close-button { display:none; }
 }
+
+.hidden { display:none !important; }
+.auth-locked .game-shell { display:none; }
+.auth-screen { min-height:100vh; display:grid; place-items:center; padding:24px 14px; background:radial-gradient(circle at 50% 0%,#3c317655,transparent 34rem),var(--bg); }
+.auth-card { width:min(100%,480px); padding:25px; border:1px solid #454263; border-radius:22px; background:linear-gradient(145deg,#1b1d35f2,#111426f2); box-shadow:0 25px 80px #03040caa; }
+.auth-brand { display:flex; align-items:center; gap:12px; }
+.auth-brand h1 { font-size:clamp(1.55rem,5vw,2.1rem); }
+.auth-brand .brand-mark { flex:none; }
+.auth-intro { margin:17px 0; color:var(--muted); font-size:.8rem; line-height:1.5; }
+.auth-tabs { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:14px; padding:4px; border:1px solid var(--line); border-radius:12px; background:#101426; }
+.auth-tab { min-height:37px; border:0; border-radius:8px; color:var(--muted); background:transparent; font-size:.74rem; font-weight:900; }
+.auth-tab.active { color:#211607; background:var(--gold); box-shadow:0 3px 0 #a96e24; }
+.auth-error { min-height:1.15rem; margin:0 2px 7px; color:var(--red); font-size:.73rem; font-weight:800; }
+.auth-form { display:grid; gap:10px; }
+.auth-form label { display:grid; gap:5px; color:var(--muted); font-size:.68rem; font-weight:800; }
+.auth-form input,.delete-form input { width:100%; border:1px solid var(--line); border-radius:9px; padding:10px 11px; color:var(--text); background:#0f1324; outline:none; font:inherit; font-size:.78rem; }
+.auth-form input:focus,.delete-form input:focus { border-color:var(--cyan); box-shadow:0 0 0 2px #6ee7f533; }
+.auth-check { display:flex !important; grid-template-columns:none !important; align-items:flex-start; gap:8px !important; padding:9px; border:1px solid #4b466b; border-radius:9px; background:#171a2d; line-height:1.35; }
+.auth-check input { width:auto; margin-top:2px; accent-color:var(--gold); }
+.auth-section-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.account-list-section { margin-top:22px; padding-top:17px; border-top:1px solid var(--line); }
+.text-button { border:0; padding:2px; color:var(--cyan); background:transparent; font-size:.67rem; font-weight:850; }
+.account-list { display:grid; gap:6px; margin-top:9px; }
+.account-empty { color:var(--muted); font-size:.72rem; }
+.account-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 10px; border:1px solid var(--line); border-radius:9px; background:#15192b; }
+.account-row strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.78rem; }
+.account-use { border:0; border-radius:7px; padding:6px 9px; color:#211607; background:var(--gold); font-size:.65rem; font-weight:900; }
+.delete-account-section { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
+.auth-help { margin:7px 0 9px; color:var(--muted); font-size:.67rem; line-height:1.4; }
+.delete-form { display:grid; grid-template-columns:1fr 1fr auto; gap:6px; }
+.danger-button { border:1px solid #704456; border-radius:8px; padding:8px 9px; color:#ffd7df; background:#4b2738; font-size:.67rem; font-weight:900; }
+.account-indicator { color:var(--violet); font-size:.68rem; font-weight:850; white-space:nowrap; }
+.mobile-account-actions { display:flex; align-items:center; gap:5px; }
+.mobile-account-name { max-width:80px; overflow:hidden; color:var(--violet); font-size:.62rem; font-weight:850; text-overflow:ellipsis; white-space:nowrap; }
+.mobile-account-button { display:grid; place-items:center; width:37px; height:37px; border:1px solid #4b466b; border-radius:11px; color:var(--violet); background:#1c2035; font-size:1rem; font-weight:950; }
+@media (max-width:650px) {
+  .auth-screen { align-items:start; padding:20px 10px; }
+  .auth-card { padding:20px 15px; border-radius:19px; }
+  .auth-brand .brand-mark { width:40px; height:40px; border-radius:12px; font-size:1.35rem; }
+  .delete-form { grid-template-columns:1fr 1fr; }
+  .danger-button { grid-column:1 / -1; }
+}

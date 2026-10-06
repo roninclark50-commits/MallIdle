@@ -7,11 +7,43 @@
   <title>Money Clicker</title>
   <link rel="stylesheet" href="styles.css?v=14" />
 </head>
-<body data-mobile-view="play">
+<body class="auth-locked" data-mobile-view="play">
+  <section id="auth-screen" class="auth-screen" aria-label="Local account access">
+    <div class="auth-card">
+      <div class="auth-brand"><div class="brand-mark">$</div><div><p class="eyebrow">Money Clicker</p><h1>Choose your account</h1></div></div>
+      <p class="auth-intro">Your progress stays on this device. Create a local profile or log in to continue.</p>
+      <div class="auth-tabs" role="tablist" aria-label="Account actions">
+        <button id="login-tab" class="auth-tab active" type="button" data-auth-view="login" role="tab" aria-selected="true">Log in</button>
+        <button id="create-tab" class="auth-tab" type="button" data-auth-view="create" role="tab" aria-selected="false">Create account</button>
+      </div>
+      <p id="auth-error" class="auth-error" role="alert" aria-live="polite"></p>
+      <form id="login-form" class="auth-form">
+        <label>Username<input id="login-username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required /></label>
+        <label>Password<input id="login-password" type="password" autocomplete="current-password" required /></label>
+        <button class="primary-button" type="submit">Log in</button>
+      </form>
+      <form id="create-form" class="auth-form hidden">
+        <label>Username<input id="create-username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required /></label>
+        <label>Password<input id="create-password" type="password" autocomplete="new-password" required /></label>
+        <label>Confirm password<input id="create-confirm" type="password" autocomplete="new-password" required /></label>
+        <label id="legacy-migration" class="auth-check hidden"><input id="migrate-save" type="checkbox" checked /> <span>Import my existing Coin Clicker save into this first account.</span></label>
+        <button class="primary-button" type="submit">Create account</button>
+      </form>
+      <section class="account-list-section" aria-label="Accounts on this device">
+        <div class="auth-section-heading"><span class="eyebrow">Accounts on this device</span><button id="refresh-accounts" class="text-button" type="button">Refresh</button></div>
+        <div id="account-list" class="account-list"><p class="account-empty">No local accounts yet.</p></div>
+      </section>
+      <section class="delete-account-section">
+        <div class="auth-section-heading"><span class="eyebrow">Delete a local account</span></div>
+        <p class="auth-help">This permanently removes that profile and its Coin Clicker progress.</p>
+        <form id="delete-form" class="delete-form"><input id="delete-username" type="text" placeholder="Username" autocomplete="username" autocapitalize="none" spellcheck="false" required /><input id="delete-password" type="password" placeholder="Password" autocomplete="current-password" required /><button class="danger-button" type="submit">Delete account</button></form>
+      </section>
+    </div>
+  </section>
   <div class="game-shell">
     <header class="mobile-topbar" aria-label="Mobile game header">
       <div class="mobile-brand"><div class="mobile-brand-mark">$</div><div><p class="eyebrow">Money Clicker</p><strong>Build your fortune</strong></div></div>
-      <button class="mobile-save-button" data-action="save" aria-label="Save game">↥</button>
+      <div class="mobile-account-actions"><span id="mobile-account-name" class="mobile-account-name"></span><button class="mobile-account-button" data-action="logout" aria-label="Log out">↪</button><button class="mobile-save-button" data-action="save" aria-label="Save game">↥</button></div>
     </header>
 
     <section class="mobile-balance-card" aria-label="Mobile money summary">
@@ -28,7 +60,7 @@
 
     <header class="topbar desktop-topbar">
       <div class="brand"><div class="brand-mark">$</div><div><p class="eyebrow">A tiny fortune starts here</p><h1>Money Clicker</h1></div></div>
-      <div class="top-actions"><span id="save-state" class="save-state">Saved locally</span><button class="ghost-button" data-action="save">Save</button><button class="ghost-button" data-action="stats">Stats</button></div>
+      <div class="top-actions"><span id="save-state" class="save-state">Saved locally</span><span id="account-indicator" class="account-indicator">👤 <span id="account-name"></span></span><button class="ghost-button" data-action="save">Save</button><button class="ghost-button" data-action="stats">Stats</button><button class="ghost-button" data-action="logout">Logout</button></div>
     </header>
 
     <section class="resource-bar">
@@ -67,6 +99,6 @@
 
   <div id="offline-modal" class="modal-backdrop hidden"><div class="modal offline-modal"><div class="modal-icon">↗</div><p class="eyebrow">Welcome back</p><h2>You were away</h2><p id="offline-duration" class="modal-copy"></p><div class="offline-earnings"><span>Your businesses earned</span><strong id="offline-money">$0</strong></div><button class="primary-button" data-action="close-offline">Collect earnings</button></div></div>
   <div id="toast" class="toast" role="status"></div>
-  <script src="app.js?v=12"></script>
+  <script src="app.js?v=13"></script>
 </body>
 </html>
