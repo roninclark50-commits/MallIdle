@@ -83,7 +83,12 @@
   body[data-mobile-view="play"] .game-layout > [data-mobile-section="play"],
   body[data-mobile-view="upgrades"] .game-layout > [data-mobile-section="upgrades"],
   body[data-mobile-view="auto"] .game-layout > [data-mobile-section="auto"] { display:block; }
-  .click-zone { width:min(100%,640px); margin:0 auto; }
+  .click-zone { width:min(100%,760px); min-height:620px; margin:0 auto; padding:22px 28px 24px; background:radial-gradient(circle at 50% 38%,#30234a 0%,#171a2d 34%,#121628 70%); }
+  .click-zone .stage-label { margin-top:2px; }
+  .click-zone .click-stage { height:420px; margin:0 -14px; }
+  .click-zone .money-orb { width:260px; height:260px; }
+  .click-zone .click-hint { font-size:.78rem; }
+  .click-zone .buy-controls { width:min(100%,620px); margin:27px auto 0; }
   .panel { width:min(100%,1000px); margin:0 auto; }
   body[data-mobile-view="stats"] .game-layout { display:none; }
   body[data-mobile-view="stats"] #stats-panel { position:relative; inset:auto; width:min(100%,1000px); max-height:none; margin:14px auto 0; transform:none; }
