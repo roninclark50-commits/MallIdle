@@ -1,10 +1,10 @@
 /* LifeSim: content is data-first so new jobs, programs, items and events are easy to add. */
 const JOBS = [
-  { id:'cashier', path:'Retail', title:'Cashier', pay:1500, level:1, experience:0, education:'ged', skills:{communication:5}, previous:null },
+  { id:'cashier', path:'Retail', title:'Cashier', pay:1500, level:1, experience:0, education:'ged', skills:{}, previous:null },
   { id:'shift-lead', path:'Retail', title:'Shift Lead', pay:2300, level:2, experience:12, education:'ged', skills:{communication:15}, previous:'cashier' },
   { id:'assistant-manager', path:'Retail', title:'Assistant Manager', pay:3400, level:3, experience:24, education:'associate', skills:{business:25,communication:20}, previous:'shift-lead' },
   { id:'store-manager', path:'Retail', title:'Store Manager', pay:5200, level:4, experience:42, education:'associate', skills:{business:45,communication:35}, previous:'assistant-manager' },
-  { id:'tech-support', path:'Technology', title:'Tech Support', pay:1900, level:1, experience:0, education:'ged', skills:{technology:10,communication:5}, previous:null },
+  { id:'tech-support', path:'Technology', title:'Tech Support', pay:1900, level:1, experience:0, education:'ged', skills:{}, previous:null },
   { id:'junior-developer', path:'Technology', title:'Junior Developer', pay:3300, level:2, experience:12, education:'associate', skills:{technology:30}, previous:'tech-support' },
   { id:'software-developer', path:'Technology', title:'Software Developer', pay:6100, level:3, experience:24, education:'bachelor', skills:{technology:55,creativity:20}, previous:'junior-developer' },
   { id:'senior-developer', path:'Technology', title:'Senior Developer', pay:9800, level:4, experience:42, education:'bachelor', skills:{technology:75,creativity:35}, previous:'software-developer' },
@@ -13,7 +13,7 @@ const JOBS = [
   { id:'nurse', path:'Medical', title:'Nurse', pay:4700, level:2, experience:18, education:'associate', skills:{medical:50,health:30}, previous:'medical-assistant' },
   { id:'physician-assistant', path:'Medical', title:'Physician Assistant', pay:8200, level:3, experience:36, education:'master', skills:{medical:70,communication:35}, previous:'nurse' },
   { id:'doctor', path:'Medical', title:'Doctor', pay:18000, level:4, experience:60, education:'professional', skills:{medical:90,health:50}, previous:'physician-assistant' },
-  { id:'sales-associate', path:'Business', title:'Sales Associate', pay:2100, level:1, experience:0, education:'ged', skills:{communication:15}, previous:null },
+  { id:'sales-associate', path:'Business', title:'Sales Associate', pay:2100, level:1, experience:0, education:'ged', skills:{}, previous:null },
   { id:'sales-manager', path:'Business', title:'Sales Manager', pay:4800, level:2, experience:18, education:'associate', skills:{business:35,communication:40}, previous:'sales-associate' },
   { id:'business-analyst', path:'Business', title:'Business Analyst', pay:7600, level:3, experience:30, education:'bachelor', skills:{business:60,technology:25}, previous:'sales-manager' },
   { id:'executive', path:'Business', title:'Executive', pay:17000, level:4, experience:60, education:'master', skills:{business:85,communication:65}, previous:'business-analyst' }
