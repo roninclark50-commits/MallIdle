@@ -22,9 +22,13 @@
 .upgrade-card.rarity-uncommon,.generator-card.rarity-uncommon { border-color:#4fc9f1; box-shadow:0 0 0 1px #4fc9f155,0 0 14px #35bfe955; }
 .upgrade-card.rarity-rare,.generator-card.rarity-rare { border-color:#9b7cff; box-shadow:0 0 0 1px #9b7cff66,0 0 17px #805cff66; }
 .upgrade-card.rarity-epic,.generator-card.rarity-epic { border-color:#ffb84d; box-shadow:0 0 0 1px #ffb84d66,0 0 19px #ff8a3d66; }
-.upgrade-card.rarity-max,.generator-card.rarity-max { border-color:#fff0a6; box-shadow:0 0 0 1px #fff4bd99,0 0 21px #ff83e866,0 0 38px #6ee7f544; }
-.upgrade-card.rarity-max::before,.generator-card.rarity-max::before { content:""; position:absolute; z-index:-1; inset:-4px; border-radius:inherit; background:conic-gradient(from 0deg,#ff5c8a,#ffd166,#76e0a6,#6ee7f5,#9a8cff,#ff5c8a); filter:blur(12px); opacity:.55; pointer-events:none; animation:rarity-shift 4.5s linear infinite; }
-@keyframes rarity-shift { to { transform:rotate(360deg); filter:blur(9px) hue-rotate(30deg); } }
+.upgrade-card.rarity-max,.generator-card.rarity-max { animation:max-rarity-glow 5.5s linear infinite; }
+@keyframes max-rarity-glow {
+  0%,100% { border-color:#ffd166; box-shadow:0 0 0 1px #ffe6a866,0 0 15px #ff5c8a55,0 0 28px #ff5c8a2e; }
+  25% { border-color:#6ee7f5; box-shadow:0 0 0 1px #b5f6ff66,0 0 15px #6ee7f555,0 0 28px #6ee7f52e; }
+  50% { border-color:#9a8cff; box-shadow:0 0 0 1px #d4ceff66,0 0 15px #9a8cff55,0 0 28px #9a8cff2e; }
+  75% { border-color:#76e0a6; box-shadow:0 0 0 1px #c5ffe066,0 0 15px #76e0a655,0 0 28px #76e0a62e; }
+}
 .desktop-nav { display:grid; grid-template-columns:repeat(4,1fr); width:min(100%,900px); gap:6px; margin:0 auto 18px; padding:6px; border:1px solid #3b4163; border-radius:18px; background:linear-gradient(135deg,#171b31dd,#0f1324dd); box-shadow:0 12px 30px #03040c55,inset 0 1px #ffffff08; }
 .desktop-nav-button { display:flex; align-items:center; justify-content:center; gap:8px; min-height:45px; border:1px solid transparent; border-radius:12px; color:var(--muted); background:#181d31aa; font-size:.75rem; font-weight:900; transition:color .18s,background .18s,border-color .18s,transform .18s,box-shadow .18s; }
 .desktop-nav-button:hover { border-color:#555d85; color:var(--text); background:#232943; transform:translateY(-1px); }
