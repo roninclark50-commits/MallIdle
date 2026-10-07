@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#0d1020" />
   <title>Money Clicker</title>
-  <link rel="stylesheet" href="styles.css?v=15" />
+  <link rel="stylesheet" href="styles.css?v=16" />
 </head>
 <body class="auth-locked" data-mobile-view="play">
   <section id="auth-screen" class="auth-screen" aria-label="Local account access">
@@ -55,6 +55,7 @@
       <button class="mobile-nav-button game-view-button active" data-mobile-view="play">Play</button>
       <button class="mobile-nav-button game-view-button" data-mobile-view="upgrades">Upgrades</button>
       <button class="mobile-nav-button game-view-button" data-mobile-view="auto">Auto</button>
+      <button class="mobile-nav-button game-view-button" data-mobile-view="quests">Quests <span id="mobile-quest-badge" class="quest-badge hidden">0</span></button>
       <button class="mobile-nav-button game-view-button" data-mobile-view="stats">Stats</button>
     </nav>
 
@@ -73,6 +74,7 @@
       <button class="desktop-nav-button game-view-button active" data-mobile-view="play"><span class="desktop-tab-icon" aria-hidden="true">◉</span><span>Play</span></button>
       <button class="desktop-nav-button game-view-button" data-mobile-view="upgrades"><span class="desktop-tab-icon" aria-hidden="true">✦</span><span>Upgrades</span></button>
       <button class="desktop-nav-button game-view-button" data-mobile-view="auto"><span class="desktop-tab-icon" aria-hidden="true">↗</span><span>Auto</span></button>
+      <button class="desktop-nav-button game-view-button" data-mobile-view="quests"><span class="desktop-tab-icon" aria-hidden="true">◆</span><span>Quests</span><span id="desktop-quest-badge" class="quest-badge hidden">0</span></button>
       <button class="desktop-nav-button game-view-button" data-mobile-view="stats"><span class="desktop-tab-icon" aria-hidden="true">▦</span><span>Stats</span></button>
     </nav>
 
@@ -91,6 +93,8 @@
       <section class="panel upgrades-panel" data-mobile-section="upgrades"><div class="panel-heading"><div><p class="eyebrow">Make every tap count</p><h2>Click upgrades</h2></div><span class="panel-count" id="upgrade-count">0 bought</span></div><div id="upgrade-list" class="upgrade-list"></div></section>
 
       <section class="panel generators-panel" data-mobile-section="auto"><div class="panel-heading"><div><p class="eyebrow">Money while you sleep</p><h2>Auto clickers</h2></div><span class="panel-count" id="generator-count">0 owned</span></div><div id="generator-list" class="generator-list"></div></section>
+
+      <section class="panel quests-panel" data-mobile-section="quests"><div class="panel-heading"><div><p class="eyebrow">Small goals, lasting bonuses</p><h2>Quests</h2></div><div class="quest-points"><span>Quest Points</span><strong id="quest-points">0</strong></div></div><div class="quest-reset"><span>Daily quests reset at local midnight</span><strong id="quest-reset-time">Calculating…</strong></div><div class="quest-categories" role="tablist" aria-label="Quest categories"><button class="quest-category-button active" data-quest-category="daily" role="tab" aria-selected="true">Daily <span id="daily-quest-badge" class="quest-category-count hidden">0</span></button><button class="quest-category-button" data-quest-category="progression" role="tab" aria-selected="false">Progression</button><button class="quest-category-button" data-quest-category="challenges" role="tab" aria-selected="false">Challenges</button></div><div id="quest-list" class="quest-list"></div></section>
     </main>
 
     <section class="utility-row"><button class="utility-button" data-action="export">Export save</button><button class="utility-button" data-action="import">Import save</button><button class="utility-button danger" data-action="reset">Reset game</button><input id="import-file" type="file" accept="application/json" hidden /></section>
@@ -99,6 +103,6 @@
 
   <div id="offline-modal" class="modal-backdrop hidden"><div class="modal offline-modal"><div class="modal-icon">↗</div><p class="eyebrow">Welcome back</p><h2>You were away</h2><p id="offline-duration" class="modal-copy"></p><div class="offline-earnings"><span>Your businesses earned</span><strong id="offline-money">$0</strong></div><button class="primary-button" data-action="close-offline">Collect earnings</button></div></div>
   <div id="toast" class="toast" role="status"></div>
-  <script src="app.js?v=13"></script>
+  <script src="app.js?v=14"></script>
 </body>
 </html>
